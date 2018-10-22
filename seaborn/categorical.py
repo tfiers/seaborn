@@ -2766,14 +2766,20 @@ boxenplot.__doc__ = dedent("""\
 
 
 def stripplot(x=None, y=None, hue=None, data=None, order=None, hue_order=None,
-              jitter=True, dodge=False, orient=None, color=None, palette=None,
-              size=5, edgecolor="gray", linewidth=0, width=0.6,
-              ax=None, **kwargs):
+              jitter=True, dodge=None, orient=None, color=None, palette=None,
+              size=5, edgecolor="gray", linewidth=0, ax=None, **kwargs):
 
     if "split" in kwargs:
         dodge = kwargs.pop("split")
         msg = "The `split` parameter has been renamed to `dodge`."
         warnings.warn(msg, UserWarning)
+
+    if dodge is None:
+        dodge = False
+        width = 0.8
+    else:
+        width = dodge
+        dodge = True
 
     plotter = _StripPlotter(x, y, hue, data, order, hue_order,
                             jitter, dodge, width, orient, color, palette)
@@ -2816,14 +2822,13 @@ stripplot.__doc__ = dedent("""\
         it is easier to see the distribution. You can specify the amount
         of jitter (half the width of the uniform random variable support),
         or just use ``True`` for a good default.
-    dodge : bool, optional
-        When using ``hue`` nesting, setting this to ``True`` will separate
-        the strips for different hue levels along the categorical axis.
-        Otherwise, the points for each level will be plotted on top of
-        each other.
-    width : float, optional
-        When using ``hue`` nesting, how far apart the strips for different
-        hue levels are separated.
+    dodge : float or ``None``, optional
+        When using ``hue`` nesting, setting this to a value other than 
+        ``None`` will separate  the strips for different hue levels along
+        the categorical axis. The given value determines how far apart the
+        strips will be separated (0.6 is a good starting value to try).
+         If ``None`` (default), the points for each level will be plotted 
+         on top of each other.
     {orient}
     {color}
     {palette}
