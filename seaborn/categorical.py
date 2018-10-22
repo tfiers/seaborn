@@ -1138,14 +1138,14 @@ class _CategoricalScatterPlotter(_CategoricalPlotter):
 class _StripPlotter(_CategoricalScatterPlotter):
     """1-d scatterplot with categorical organization."""
     def __init__(self, x, y, hue, data, order, hue_order,
-                 jitter, dodge, orient, color, palette):
+                 jitter, dodge, width, orient, color, palette):
         """Initialize the plotter."""
         self.establish_variables(x, y, hue, data, orient, order, hue_order)
         self.establish_colors(color, palette, 1)
 
         # Set object attributes
         self.dodge = dodge
-        self.width = .8
+        self.width = width
 
         if jitter == 1:  # Use a good default for `jitter = True`
             jlim = 0.1
@@ -2767,7 +2767,8 @@ boxenplot.__doc__ = dedent("""\
 
 def stripplot(x=None, y=None, hue=None, data=None, order=None, hue_order=None,
               jitter=True, dodge=False, orient=None, color=None, palette=None,
-              size=5, edgecolor="gray", linewidth=0, ax=None, **kwargs):
+              size=5, edgecolor="gray", linewidth=0, width=0.6,
+              ax=None, **kwargs):
 
     if "split" in kwargs:
         dodge = kwargs.pop("split")
@@ -2775,7 +2776,7 @@ def stripplot(x=None, y=None, hue=None, data=None, order=None, hue_order=None,
         warnings.warn(msg, UserWarning)
 
     plotter = _StripPlotter(x, y, hue, data, order, hue_order,
-                            jitter, dodge, orient, color, palette)
+                            jitter, dodge, width, orient, color, palette)
     if ax is None:
         ax = plt.gca()
 
@@ -2820,6 +2821,9 @@ stripplot.__doc__ = dedent("""\
         the strips for different hue levels along the categorical axis.
         Otherwise, the points for each level will be plotted on top of
         each other.
+    width : float, optional
+        When using ``hue`` nesting, how far apart the strips for different
+        hue levels are separated.
     {orient}
     {color}
     {palette}
