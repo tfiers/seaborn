@@ -26,7 +26,7 @@ MAINTAINER_EMAIL = 'mwaskom@nyu.edu'
 URL = 'https://seaborn.pydata.org'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/mwaskom/seaborn/'
-VERSION = '0.9.0'
+VERSION = '0.9.0+tomas'
 
 INSTALL_REQUIRES = [
     'numpy>=1.9.3',
